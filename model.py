@@ -33,8 +33,14 @@ def detect_tennis_balls_from_webcam():
         # Find contours
         contours, _ = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
+        maxArea = -10000
+
         for cnt in contours:
             area = cv2.contourArea(cnt)
+
+            if(area <= maxArea):
+                continue
+
             if area < 100 or area > 5000:
                 continue
 
