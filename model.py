@@ -1,81 +1,68 @@
 import cv2
 import numpy as np
 
-def detect_tennis_balls(image_path):
-    image = cv2.imread(image_path)
-    hsv = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
+def detect_tennis_balls_from_webcam():
+    # Open the webcam
+    cap = cv2.VideoCapture(2)
 
-    # Mask tennis ball color (yellow-green)
-    lower_yellow = np.array([25, 100, 100])
-    upper_yellow = np.array([45, 255, 255])
-    mask = cv2.inRange(hsv, lower_yellow, upper_yellow)
+    if not cap.isOpened():
+        print("Error: Could not open webcam.")
+        return
 
-    # Remove court color (example for green court)
-    lower_court = np.array([35, 40, 40])
-    upper_court = np.array([85, 255, 255])
-    court_mask = cv2.inRange(hsv, lower_court, upper_court)
-    mask = cv2.bitwise_and(mask, cv2.bitwise_not(court_mask))
+    while True:
+        ret, frame = cap.read()
+        if not ret:
+            break
 
-    # Morphological cleanup
-    kernel = np.ones((5, 5), np.uint8)
-    mask = cv2.morphologyEx(mask, cv2.MORPH_OPEN, kernel)
-    mask = cv2.morphologyEx(mask, cv2.MORPH_CLOSE, kernel)
+        # Resize (optional)
+        frame = cv2.resize(frame, (640, 480))
 
-    # Edge detection
-    edges = cv2.Canny(mask, 50, 150)
+        # Convert to HSV
+        hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
 
-    # Find contours on edges
-    contours, hierarchy = cv2.findContours(edges, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+        # Define yellow color range for tennis ball
+        lower_yellow = np.array([25, 100, 100])
+        upper_yellow = np.array([45, 255, 255])
+        mask = cv2.inRange(hsv, lower_yellow, upper_yellow)
 
-    for i, cnt in enumerate(contours):
-        area = cv2.contourArea(cnt)
-        if area < 100 or area > 3000:
-            continue
+        # Morphological cleaning
+        kernel = np.ones((5, 5), np.uint8)
+        mask = cv2.morphologyEx(mask, cv2.MORPH_OPEN, kernel)
+        mask = cv2.morphologyEx(mask, cv2.MORPH_CLOSE, kernel)
 
-        # Contour solidity
-        hull = cv2.convexHull(cnt)
-        hull_area = cv2.contourArea(hull)
-        if hull_area == 0:
-            continue
-        solidity = float(area) / hull_area
-        if solidity < 0.8:
-            continue
+        # Find contours
+        contours, _ = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
-        # Circularity
-        perimeter = cv2.arcLength(cnt, True)
-        if perimeter == 0:
-            continue
-        circularity = 4 * np.pi * area / (perimeter * perimeter)
-        if circularity < 0.7 or circularity > 1.2:
-            continue
+        for cnt in contours:
+            area = cv2.contourArea(cnt)
+            if area < 100 or area > 5000:
+                continue
 
-        # Fit circle
-        (x, y), radius = cv2.minEnclosingCircle(cnt)
-        if radius < 10 or radius > 50:
-            continue
+            perimeter = cv2.arcLength(cnt, True)
+            if perimeter == 0:
+                continue
+            circularity = 4 * np.pi * area / (perimeter * perimeter)
+            if circularity < 0.75:
+                continue
 
-        # Distance fit check (fixed here)
-        center = np.array([int(x), int(y)])
-        distances = [cv2.norm(center, pt[0]) for pt in cnt]
-        mean_dist = np.mean(distances)
-        if abs(mean_dist - radius) / radius > 0.2:
-            continue
+            # Bounding box
+            x, y, w, h = cv2.boundingRect(cnt)
+            (cx, cy), radius = cv2.minEnclosingCircle(cnt)
 
-        # Mean HSV inside contour check
-        mask_contour = np.zeros(mask.shape, dtype=np.uint8)
-        cv2.drawContours(mask_contour, [cnt], -1, 255, -1)
-        mean_hsv = cv2.mean(hsv, mask=mask_contour)[:3]
-        if not (lower_yellow[0] <= mean_hsv[0] <= upper_yellow[0]):
-            continue
+            # Draw detection
+            cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
+            cv2.circle(frame, (int(cx), int(cy)), int(radius), (255, 0, 0), 2)
 
-        # Passed all checks — draw bounding box and circle
-        x_, y_, w, h = cv2.boundingRect(cnt)
-        cv2.rectangle(image, (x_, y_), (x_ + w, y_ + h), (0, 255, 0), 2)
-        cv2.circle(image, (int(x), int(y)), int(radius), (255, 0, 0), 2)
+        # Show result
+        cv2.imshow("Tennis Ball Detection (Classic CV)", frame)
 
-    cv2.imshow('Better Tennis Ball Detection', image)
-    cv2.waitKey(0)
+        # Exit on ESC or 'q'
+        key = cv2.waitKey(1)
+        if key == 27 or key == ord('q'):
+            break
+
+    cap.release()
     cv2.destroyAllWindows()
 
-# Example usage:
-detect_tennis_balls('tennis_court.jpg')
+# Run it
+detect_tennis_balls_from_webcam()
