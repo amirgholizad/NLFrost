@@ -2,7 +2,7 @@ import cv2
 import numpy as np
 
 def detect_color(frame, lower_color, upper_color, center_color):
-    frame = cv2.resize(frame, (1280, 720))
+    frame = cv2.resize(frame, (720, 720))
 
     hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
     # Define yellow color range
