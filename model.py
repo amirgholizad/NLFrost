@@ -41,6 +41,8 @@ def detect_tennis_balls_from_webcam():
             if(area <= maxArea):
                 continue
 
+            maxArea = area
+
             if area < 100 or area > 5000:
                 continue
 
