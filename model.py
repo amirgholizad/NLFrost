@@ -1,5 +1,8 @@
 import cv2
 import numpy as np
+from time import sleep
+
+arm_up = True
 
 def detect_color(frame, lower_color, upper_color, center_color):
     frame = cv2.resize(frame, (720, 720))
@@ -17,7 +20,7 @@ def detect_color(frame, lower_color, upper_color, center_color):
 
     # Find contours
     contours, _ = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-    center = (0, 0)
+    center = (-1, -1)
     area = 0
     if(contours):
         largest_contour = max(contours, key = cv2.contourArea)
@@ -57,10 +60,39 @@ def detect_tennis_balls_from_webcam():
         
         cv2.imshow("Tennis Ball Detection (Classic CV)", frame)
 
+        if arm_up:
+            x = x_y
+        else:
+            x = x_o
+        
+        if x == -1:
+            print("No ball detected.")
+            #turn right
+            continue
+        if 720/ 2 - 50 < x < 720 / 2 + 50:
+            if area_y > 30000 and arm_up:
+                arm_up = False
+                # Move arm down
+                sleep(2)  # Simulate arm movement delay
+            elif area_o > 30000 and not arm_up:
+                arm_up = True
+                # Move arm up
+                sleep(2)  # Simulate arm movement delay
+            #move forward
+            pass
+        elif x <= 720 / 2 - 50:
+            #turn left
+            pass
+        else:
+            #turn right
+            pass
+
+
         # Quitting program with 'q'
         key = cv2.waitKey(1)
         if key == 27 or key == ord('q'):
             break
+
 
     cap.release()
     cv2.destroyAllWindows()
