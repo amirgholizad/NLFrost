@@ -53,21 +53,21 @@ gpio.setup(15,gpio.OUT)
 # gpio.setup(rightSensor,gpio.IN)
 
 # turn on left motor
-def leftOn():
+def _leftOn():
     gpio.output(15,1)
 
 # turn off left motor
-def leftOff():
+def _leftOff():
     gpio.output(15,0)
     
     
 # turn on right motor
-def rightOn():
+def _rightOn():
     gpio.output(13,1)
 
 
 #turn off right motor
-def rightOff():
+def _rightOff():
     gpio.output(13,0)
 
 
@@ -80,23 +80,23 @@ def stopAll():
 
 def moveForward():
     print("Moving forward")
-    rightOn()
-    leftOn()
+    _rightOn()
+    _leftOn()
 
 def moveStop():
     print("Stopping")
-    rightOff()
-    leftOff()
+    _rightOff()
+    _leftOff()
 
 def moveRight():
     print("Moving right")
-    rightOn()
-    rightOff()
+    _rightOn()
+    _leftOff()
 
 def moveLeft():
     print("Moving left")
-    rightOff()
-    leftOn()
+    _rightOff()
+    _leftOn()
 
 
 arm_servo = AngularServo(17, min_angle = 0, max_angle = 90)
@@ -110,7 +110,6 @@ def close():
     sleep(0.45)
     arm_servo.value = None
 
-    sleep(3)
 
 # Open
 def open():
