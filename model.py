@@ -1,9 +1,36 @@
 import cv2
 import numpy as np
 
+def detect_yellow(frame):
+    frame = cv2.resize(frame, (640, 480))
+
+    hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
+    # Define yellow color range
+    lower_yellow = np.array([20, 80, 80])
+    upper_yellow = np.array([55, 255, 255])
+    mask = cv2.inRange(hsv, lower_yellow, upper_yellow)
+
+    # Morphological cleaning to reduce noise
+    kernel = np.ones((5, 5), np.uint8)
+    mask = cv2.morphologyEx(mask, cv2.MORPH_OPEN, kernel)
+    mask = cv2.morphologyEx(mask, cv2.MORPH_CLOSE, kernel)
+
+    # Find contours
+    contours, _ = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+
+    if(contours):
+        largest_contour = max(contours, key = cv2.contourArea)
+        if cv2.contourArea(largest_contour) > 100:
+            ((x, y), radius) = cv2.minEnclosingCircle(largest_contour)
+            center = (int(x), int(y))
+            radius = int(radius)
+
+            cv2.circle(frame, center, radius, (0, 255, 255), 2)
+            cv2.circle(frame, center, 5, (0, 0, 255), -1)
+    return frame
 def detect_tennis_balls_from_webcam():
     # Device Webcam 0
-    cap = cv2.VideoCapture(0)
+    cap = cv2.VideoCapture(2)
 
     if not cap.isOpened():
         print("Error: Could not open webcam.")
@@ -14,33 +41,9 @@ def detect_tennis_balls_from_webcam():
         if not ret:
             break
 
-        frame = cv2.resize(frame, (640, 480))
+        frame = detect_yellow(frame)
 
-        hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
-
-        # Define yellow color range
-        lower_yellow = np.array([25, 100, 100])
-        upper_yellow = np.array([45, 255, 255])
-        mask = cv2.inRange(hsv, lower_yellow, upper_yellow)
-
-        # Morphological cleaning to reduce noise
-        kernel = np.ones((5, 5), np.uint8)
-        mask = cv2.morphologyEx(mask, cv2.MORPH_OPEN, kernel)
-        mask = cv2.morphologyEx(mask, cv2.MORPH_CLOSE, kernel)
-
-        # Find contours
-        contours, _ = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-
-        if(contours):
-            largest_contour = max(contours, key = cv2.contourArea)
-            if cv2.contourArea(largest_contour) > 100:
-                ((x, y), radius) = cv2.minEnclosingCircle(largest_contour)
-                center = (int(x), int(y))
-                radius = int(radius)
-
-                cv2.circle(frame, center, radius, (0, 255, 255), 2)
-                cv2.circle(frame, center, 5, (0, 0, 255), -1)
-
+        
         #################### Multi-ball handling ####################
         # for cnt in contours:
         #     area = cv2.contourArea(cnt)
