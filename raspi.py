@@ -1,46 +1,67 @@
-import RPi.GPIO as GPIO
-import time
+    ###############################
+#  PiBot Line Following 
+#  Davis MT
+#  28.02.2020
+###############################
 
-# Define GPIO pins for IN1 to IN4
-IN1 = 17
-IN2 = 18
-IN3 = 27
-IN4 = 22
+# import libraries 
+import RPi.GPIO as gpio
 
-# Setup GPIO mode
-GPIO.setmode(GPIO.BCM) #mode
-GPIO.setwarnings(False)
+# set pin mapping to BOARD
+gpio.setmode(gpio.BOARD)
 
-# Setup all pins as output
-motor_pins = [IN1, IN2, IN3, IN4]
-for pin in motor_pins:
-    GPIO.setup(pin, GPIO.OUT)
-    GPIO.output(pin, 0)
 
-# Define step sequence for 28BYJ-48 motor (half-step for smoother motion)
-half_step_seq = [
-    [1,0,0,0],
-    [1,1,0,0],
-    [0,1,0,0],
-    [0,1,1,0],
-    [0,0,1,0],
-    [0,0,1,1],
-    [0,0,0,1],
-    [1,0,0,1]
-]
+# turn off channel warnings messages
+gpio.setwarnings(False)
 
-# Function to move forward
-def move_forward(steps=512, delay=0.001):
-    for _ in range(steps):
-        for step in half_step_seq:
-            for pin, val in zip(motor_pins, step):
-                GPIO.output(pin, val)
-            time.sleep(delay)
+# Set GPIO pins as output
+gpio.setup(13,gpio.OUT)
+gpio.setup(15,gpio.OUT)
 
-# Main
-try:
-    print("Moving forward...")
-    move_forward(512)  # 512 steps = ~1 full rotation
-    print("Done.")
-finally:
-    GPIO.cleanup()
+
+# set GPIO pins as inputs
+# leftSensor = 7
+# rightSensor = 10
+# gpio.setup(leftSensor,gpio.IN)
+# gpio.setup(rightSensor,gpio.IN)
+
+# turn on left motor
+def leftOn():
+    gpio.output(15,1)
+
+# turn off left motor
+def leftOff():
+    gpio.output(15,0)
+    
+    
+# turn on right motor
+def rightOn():
+    gpio.output(13,1)
+
+
+#turn off right motor
+def rightOff():
+    gpio.output(13,0)
+
+
+# turn off all motors
+def stopAll():
+    gpio.output(13,0)
+    gpio.output(15,0)
+
+
+# main program loop
+
+stopAll()   # make sure all pin are set to off
+
+while True:
+    
+    rightOn()
+    leftOn()
+        
+gpio.cleanup()
+        
+
+
+
+
