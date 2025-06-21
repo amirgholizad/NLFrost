@@ -20,8 +20,9 @@ def detect_color(frame, lower_color, upper_color, center_color):
     mask = cv2.morphologyEx(mask, cv2.MORPH_CLOSE, kernel)
 
     # Find contours
+    print("=== findContours called! ===")
     contours, _ = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-    center = (-1, -1)
+    center = (0, 0)
     area = 0
     if(contours):
         largest_contour = max(contours, key = cv2.contourArea)
@@ -30,7 +31,7 @@ def detect_color(frame, lower_color, upper_color, center_color):
             ((x, y), radius) = cv2.minEnclosingCircle(largest_contour)
             center = (int(x), int(y))
             radius = int(radius)
-
+            print("=== Drawing circle! ===")
             cv2.circle(frame, center, radius, (0, 255, 255), 2)
             cv2.circle(frame, center, 5, center_color, -1)
     return frame, center, area
@@ -70,7 +71,7 @@ def detect_tennis_balls_from_webcam():
         else:
             x = x_o
         
-        if x == -1:
+        if x == 0:
             print("No ball detected.")
             
             print("=== MoveRight called!")
