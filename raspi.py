@@ -6,7 +6,7 @@
 
 # import libraries 
 import RPi.GPIO as gpio
-
+import time
 # set pin mapping to BOARD
 gpio.setmode(gpio.BOARD)
 
@@ -52,15 +52,27 @@ def stopAll():
 
 # main program loop
 
-stopAll()   # make sure all pin are set to off
 
-while True:
-    
+if __name__=="__main__":
+    stopAll()   # make sure all pin are set to off
+
     rightOn()
     leftOn()
-        
-gpio.cleanup()
-        
+
+    time.sleep(5)
+    rightOff()
+    leftOff()
+    time.sleep(1)
+    rightOn()
+    leftOff()
+    time.sleep(5)
+    rightOff()
+    leftOff()
+
+
+
+    gpio.cleanup()
+            
 
 
 
