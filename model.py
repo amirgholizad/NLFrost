@@ -1,6 +1,7 @@
 import cv2
 import numpy as np
 from time import sleep
+from action import *
 
 arm_up = True
 
@@ -67,25 +68,23 @@ def detect_tennis_balls_from_webcam():
         
         if x == -1:
             print("No ball detected.")
-            #turn right
+            moveRight()
             continue
         if 720/ 2 - 50 < x < 720 / 2 + 50:
             if area_y > 30000 and arm_up:
                 arm_up = False
-                # Move arm down
+                close() # Close the arm
                 sleep(2)  # Simulate arm movement delay
             elif area_o > 30000 and not arm_up:
                 arm_up = True
-                # Move arm up
+                open() # Open the arm
                 sleep(2)  # Simulate arm movement delay
-            #move forward
+            moveForward() 
             pass
         elif x <= 720 / 2 - 50:
-            #turn left
-            pass
+            moveLeft() 
         else:
-            #turn right
-            pass
+            moveRight()
 
 
         # Quitting program with 'q'
