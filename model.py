@@ -1,14 +1,14 @@
 import cv2
 import numpy as np
 
-def detect_yellow(frame):
-    frame = cv2.resize(frame, (640, 480))
+def detect_color(frame, lower_color, upper_color, center_color):
+    frame = cv2.resize(frame, (1920, 1080))
 
     hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
     # Define yellow color range
-    lower_yellow = np.array([20, 80, 80])
-    upper_yellow = np.array([55, 255, 255])
-    mask = cv2.inRange(hsv, lower_yellow, upper_yellow)
+    lower_color = np.array(lower_color)
+    upper_color = np.array(upper_color)
+    mask = cv2.inRange(hsv, lower_color, upper_color)
 
     # Morphological cleaning to reduce noise
     kernel = np.ones((5, 5), np.uint8)
@@ -17,17 +17,20 @@ def detect_yellow(frame):
 
     # Find contours
     contours, _ = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-
+    center = (0, 0)
+    area = 0
     if(contours):
         largest_contour = max(contours, key = cv2.contourArea)
-        if cv2.contourArea(largest_contour) > 100:
+        area = cv2.contourArea(largest_contour)
+        if area > 100:
             ((x, y), radius) = cv2.minEnclosingCircle(largest_contour)
             center = (int(x), int(y))
             radius = int(radius)
 
             cv2.circle(frame, center, radius, (0, 255, 255), 2)
-            cv2.circle(frame, center, 5, (0, 0, 255), -1)
-    return frame
+            cv2.circle(frame, center, 5, center_color, -1)
+    return frame, center, area
+
 def detect_tennis_balls_from_webcam():
     # Device Webcam 0
     cap = cv2.VideoCapture(2)
@@ -41,9 +44,37 @@ def detect_tennis_balls_from_webcam():
         if not ret:
             break
 
-        frame = detect_yellow(frame)
+        frame, (x_y, y_y), area_y = detect_color(frame, [20, 80, 80], [55, 255, 255], (0, 255, 255))  #yellow
+        frame, (x_o, y_o), area_o = detect_color(frame, [35, 50, 50], [85, 255, 255], (0, 255, 0))  #green
 
+        print("--------------------------------------------------")
+        print(f"Yellow Ball - Center: ({x_y}, {y_y}), Area: {area_y}")
+        print(f"Orange Ball - Center: ({x_o}, {y_o}), Area: {area_o}")
+        print("--------------------------------------------------")
         
+        cv2.imshow("Tennis Ball Detection (Classic CV)", frame)
+
+        # Quitting program with 'q'
+        key = cv2.waitKey(1)
+        if key == 27 or key == ord('q'):
+            break
+
+    cap.release()
+    cv2.destroyAllWindows()
+
+
+detect_tennis_balls_from_webcam()
+
+
+
+
+
+
+
+
+
+
+
         #################### Multi-ball handling ####################
         # for cnt in contours:
         #     area = cv2.contourArea(cnt)
@@ -66,16 +97,3 @@ def detect_tennis_balls_from_webcam():
         #     cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
         #     cv2.circle(frame, (int(cx), int(cy)), int(radius), (255, 0, 0), 2)
         #############################################################
-
-        cv2.imshow("Tennis Ball Detection (Classic CV)", frame)
-
-        # Quitting program with 'q'
-        key = cv2.waitKey(1)
-        if key == 27 or key == ord('q'):
-            break
-
-    cap.release()
-    cv2.destroyAllWindows()
-
-
-detect_tennis_balls_from_webcam()
