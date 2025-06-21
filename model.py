@@ -3,14 +3,12 @@ import numpy as np
 
 def detect_tennis_balls_from_webcam():
     # Open the webcam
-    cap = cv2.VideoCapture(2)
+    cap = cv2.VideoCapture(0)
 
     if not cap.isOpened():
         print("Error: Could not open webcam.")
         return
-
-    maxArea = -10000
-
+    
     while True:
         ret, frame = cap.read()
         if not ret:
@@ -35,34 +33,36 @@ def detect_tennis_balls_from_webcam():
         # Find contours
         contours, _ = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
-        for cnt in contours:
-            area = cv2.contourArea(cnt)
+        if(contours):
+            largest_contour = max(contours, key = cv2.contourArea)
+            if cv2.contourArea(largest_contour) > 100:
+                ((x, y), radius) = cv2.minEnclosingCircle(largest_contour)
+                center = (int(x), int(y))
+                radius = int(radius)
 
-            if(area <= maxArea):
-                continue
-            
-            maxArea = area
+                cv2.circle(frame, center, radius, (0, 255, 255), 2)
+                cv2.circle(frame, center, 5, (0, 0, 255), -1)
 
-            print(f"Area: {area}")
-            print(f"Max Area: {maxArea}")
+        # for cnt in contours:
+        #     area = cv2.contourArea(cnt)
 
-            if area < 100:
-                continue
+        #     if area < 100:
+        #         continue
 
-            perimeter = cv2.arcLength(cnt, True)
-            if perimeter == 0:
-                continue
-            circularity = 4 * np.pi * area / (perimeter * perimeter)
-            if circularity < 0.75:
-                continue
+        #     perimeter = cv2.arcLength(cnt, True)
+        #     if perimeter == 0:
+        #         continue
+        #     circularity = 4 * np.pi * area / (perimeter * perimeter)
+        #     if circularity < 0.75:
+        #         continue
 
-            # Bounding box
-            x, y, w, h = cv2.boundingRect(cnt)
-            (cx, cy), radius = cv2.minEnclosingCircle(cnt)
+        #     # Bounding box
+        #     x, y, w, h = cv2.boundingRect(cnt)
+        #     (cx, cy), radius = cv2.minEnclosingCircle(cnt)
 
-            # Draw detection
-            cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
-            cv2.circle(frame, (int(cx), int(cy)), int(radius), (255, 0, 0), 2)
+        #     # Draw detection
+        #     cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
+        #     cv2.circle(frame, (int(cx), int(cy)), int(radius), (255, 0, 0), 2)
 
         # Show result
         cv2.imshow("Tennis Ball Detection (Classic CV)", frame)
