@@ -35,6 +35,9 @@ def detect_tennis_balls_from_webcam():
     # Device Webcam 0
     cap = cv2.VideoCapture(0)
 
+    desired_fps = 10
+    cap.set(cv2.CAP_PROP_FPS, desired_fps)
+
     if not cap.isOpened():
         print("Error: Could not open webcam.")
         return
