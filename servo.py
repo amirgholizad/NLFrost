@@ -26,3 +26,19 @@
 #    GPIO.cleanup()
 
 
+from gpiozero import Motor, AngularServo
+from time import sleep
+
+arm_servo = AngularServo(17, min_angle = 0, max_angle = 90)
+
+# Close
+arm_servo.value = 0.6
+sleep(0.45)
+arm_servo.value = None
+
+sleep(3)
+
+# Open
+arm_servo.value = -0.5
+sleep(0.2)
+arm_servo.value = None
