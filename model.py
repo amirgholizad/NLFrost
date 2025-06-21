@@ -4,7 +4,7 @@ from time import sleep
 from action import *
 
 def detect_color(frame, lower_color, upper_color, center_color):
-    frame = cv2.resize(frame, (720, 720))
+    frame = cv2.resize(frame, (720, 480))
 
     hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
     # Define yellow color range
@@ -41,7 +41,7 @@ def detect_tennis_balls_from_webcam():
 
     cap = cv2.VideoCapture(0)
 
-    desired_fps = 10
+    desired_fps = 8
     cap.set(cv2.CAP_PROP_FPS, desired_fps)
 
     if not cap.isOpened():
