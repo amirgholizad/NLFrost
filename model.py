@@ -106,6 +106,8 @@ def detect_tennis_balls_from_webcam():
             print("=== MoveRight finished!")
 
 
+        sleep(0.5)
+
         # Quitting program with 'q'
         key = cv2.waitKey(1)
         if key == 27 or key == ord('q'):
@@ -116,8 +118,9 @@ def detect_tennis_balls_from_webcam():
     cv2.destroyAllWindows()
 
 
-detect_tennis_balls_from_webcam()
 
+if __name__=="__main__":   
+    detect_tennis_balls_from_webcam() 
 
 
 
