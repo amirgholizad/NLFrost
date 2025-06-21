@@ -2,7 +2,7 @@ import cv2
 import numpy as np
 
 def detect_tennis_balls_from_webcam():
-    # Open the webcam
+    # Device Webcam 0
     cap = cv2.VideoCapture(0)
 
     if not cap.isOpened():
@@ -14,18 +14,16 @@ def detect_tennis_balls_from_webcam():
         if not ret:
             break
 
-        # Resize (optional)
         frame = cv2.resize(frame, (640, 480))
 
-        # Convert to HSV
         hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
 
-        # Define yellow color range for tennis ball
+        # Define yellow color range
         lower_yellow = np.array([25, 100, 100])
         upper_yellow = np.array([45, 255, 255])
         mask = cv2.inRange(hsv, lower_yellow, upper_yellow)
 
-        # Morphological cleaning
+        # Morphological cleaning to reduce noise
         kernel = np.ones((5, 5), np.uint8)
         mask = cv2.morphologyEx(mask, cv2.MORPH_OPEN, kernel)
         mask = cv2.morphologyEx(mask, cv2.MORPH_CLOSE, kernel)
@@ -43,6 +41,7 @@ def detect_tennis_balls_from_webcam():
                 cv2.circle(frame, center, radius, (0, 255, 255), 2)
                 cv2.circle(frame, center, 5, (0, 0, 255), -1)
 
+        #################### Multi-ball handling ####################
         # for cnt in contours:
         #     area = cv2.contourArea(cnt)
 
@@ -63,11 +62,11 @@ def detect_tennis_balls_from_webcam():
         #     # Draw detection
         #     cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
         #     cv2.circle(frame, (int(cx), int(cy)), int(radius), (255, 0, 0), 2)
+        #############################################################
 
-        # Show result
         cv2.imshow("Tennis Ball Detection (Classic CV)", frame)
 
-        # Exit on ESC or 'q'
+        # Quitting program with 'q'
         key = cv2.waitKey(1)
         if key == 27 or key == ord('q'):
             break
@@ -75,5 +74,5 @@ def detect_tennis_balls_from_webcam():
     cap.release()
     cv2.destroyAllWindows()
 
-# Run it
+
 detect_tennis_balls_from_webcam()
