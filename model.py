@@ -33,7 +33,7 @@ def detect_color(frame, lower_color, upper_color, center_color):
 
 def detect_tennis_balls_from_webcam():
     # Device Webcam 0
-    cap = cv2.VideoCapture(2)
+    cap = cv2.VideoCapture(0)
 
     if not cap.isOpened():
         print("Error: Could not open webcam.")
