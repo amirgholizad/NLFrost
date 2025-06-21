@@ -9,6 +9,8 @@ def detect_tennis_balls_from_webcam():
         print("Error: Could not open webcam.")
         return
 
+    maxArea = -10000
+
     while True:
         ret, frame = cap.read()
         if not ret:
@@ -33,17 +35,18 @@ def detect_tennis_balls_from_webcam():
         # Find contours
         contours, _ = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
-        maxArea = -10000
-
         for cnt in contours:
             area = cv2.contourArea(cnt)
 
             if(area <= maxArea):
                 continue
-
+            
             maxArea = area
 
-            if area < 100 or area > 5000:
+            print(f"Area: {area}")
+            print(f"Max Area: {maxArea}")
+
+            if area < 100:
                 continue
 
             perimeter = cv2.arcLength(cnt, True)
