@@ -66,7 +66,7 @@ def detect_tennis_balls_from_webcam():
         print("--------------------------------------------------")
         
         cv2.imshow("Tennis Ball Detection (Classic CV)", frame)
-
+        print("=== imshow finished! ===")
         if arm_up:
             x = x_y
         else:
