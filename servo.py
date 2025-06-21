@@ -28,6 +28,17 @@
 
 from gpiozero import Motor, AngularServo
 from time import sleep
+import RPi.GPIO as gpio
+gpio.setmode(gpio.BOARD)
+
+
+# turn off channel warnings messages
+gpio.setwarnings(False)
+
+# Set GPIO pins as output
+gpio.setup(13,gpio.OUT)
+gpio.setup(15,gpio.OUT)
+gpio.output(15,0)
 
 arm_servo = AngularServo(17, min_angle = 0, max_angle = 90)
 
