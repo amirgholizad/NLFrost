@@ -3,8 +3,6 @@ import numpy as np
 from time import sleep
 from action import *
 
-arm_up = True
-
 def detect_color(frame, lower_color, upper_color, center_color):
     frame = cv2.resize(frame, (720, 720))
 
@@ -38,6 +36,9 @@ def detect_color(frame, lower_color, upper_color, center_color):
 
 def detect_tennis_balls_from_webcam():
     # Device Webcam 0
+    arm_up = True
+
+
     cap = cv2.VideoCapture(0)
 
     desired_fps = 10
