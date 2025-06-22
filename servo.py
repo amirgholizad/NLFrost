@@ -68,4 +68,4 @@ from action import *
 open_arm()
 sleep(1)
 
-close_arm()
+full_close()
