@@ -46,7 +46,7 @@ def move_servo_to(direction):
     
     print("Servo close!")
     pwm.ChangeDutyCycle(6)
-    sleep(0.2)
+    sleep(0.3)
     pwm.ChangeDutyCycle(7) # Stop
     pwm.stop()
     return 
