@@ -22,7 +22,7 @@ def test_servo():
     sleepVal = float(input("SleepVal: "))
     duty = float(input("DutyVal: "))
     pwm.ChangeDutyCycle(duty)
-    sleep()
+    sleep(sleepVal)
     pwm.ChangeDutyCycle(7.6)
 # def move_servo_to(angle):
 #     max_duty = 7.6
