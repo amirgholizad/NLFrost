@@ -26,38 +26,40 @@
 # #    GPIO.cleanup()
 
 
-# # from gpiozero import Motor, AngularServo
-# from time import sleep
-# import RPi.GPIO as gpio
-# gpio.setmode(gpio.BOARD)
+from gpiozero import Motor, AngularServo
+from time import sleep
+import RPi.GPIO as gpio
+gpio.setmode(gpio.BOARD)
 
 
-# # turn off channel warnings messages
-# gpio.setwarnings(False)
+# turn off channel warnings messages
+gpio.setwarnings(False)
 
-# # Set GPIO pins as output
-# gpio.setup(13,gpio.OUT)
-# gpio.setup(15,gpio.OUT)
-# gpio.output(15,0)
+# Set GPIO pins as output
+gpio.setup(13,gpio.OUT)
+gpio.setup(15,gpio.OUT)
+gpio.output(15,0)
 
-# gpio.output(15,1)
+gpio.output(15,1)
 
-# arm_servo = AngularServo(17, min_angle = 0, max_angle = 90)
+arm_servo = AngularServo(11, min_angle = 0, max_angle = 90)
 
-# # Close
-# arm_servo.value = 0.6
-# sleep(0.45)
-# arm_servo.value = None
+# Close
+def close():
+    arm_servo.value = 0.6
+    sleep(0.45)
+    arm_servo.value = None
 
-# sleep(3)
+    sleep(3)
 
-# # Open
-# arm_servo.value = -0.5
-# sleep(0.2)
-# arm_servo.value = None
+# Open
+def open():
+    arm_servo.value = -0.5
+    sleep(0.2)
+    arm_servo.value = None
 
 
-from action import *
+# from action import *
 
 
 
@@ -77,6 +79,16 @@ from action import *
 #         full_close()
 #     sleep(1)
 
-close_arm()
-sleep(2)
-open_arm()
+# close_arm()
+# sleep(2)
+# open_arm()
+
+i = 8
+
+
+while i !=9:
+    i = int(input())
+    if i==1:
+        open()
+    elif i==2:
+        close()
