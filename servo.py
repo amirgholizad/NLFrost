@@ -1,57 +1,69 @@
-#import RPi.GPIO as GPIO
-#import time
+# #import RPi.GPIO as GPIO
+# #import time
 
-#servo_pin = 17  # BCM numbering
-#GPIO.setmode(GPIO.BCM)
-#GPIO.setup(servo_pin, GPIO.OUT)
+# #servo_pin = 17  # BCM numbering
+# #GPIO.setmode(GPIO.BCM)
+# #GPIO.setup(servo_pin, GPIO.OUT)
 
-# Set PWM frequency to 50Hz (20ms period)
-#pwm = GPIO.PWM(servo_pin, 50)
-#pwm.start(0)
+# # Set PWM frequency to 50Hz (20ms period)
+# #pwm = GPIO.PWM(servo_pin, 50)
+# #pwm.start(0)
 
-#def set_angle(angle):
-#    duty = 2 + (angle / 18)
-#    GPIO.output(servo_pin, True)
-#    pwm.ChangeDutyCycle(duty)
-#    time.sleep(0.03)
-#    GPIO.output(servo_pin, False)
-#    pwm.ChangeDutyCycle(0)
+# #def set_angle(angle):
+# #    duty = 2 + (angle / 18)
+# #    GPIO.output(servo_pin, True)
+# #    pwm.ChangeDutyCycle(duty)
+# #    time.sleep(0.03)
+# #    GPIO.output(servo_pin, False)
+# #    pwm.ChangeDutyCycle(0)
 
-#try:
-#    while True:
-#        angle = int(input("Enter angle (0 to 180): "))
-#        set_angle(angle)
-#except KeyboardInterrupt:
-#    pwm.stop()
-#    GPIO.cleanup()
-
-
-# from gpiozero import Motor, AngularServo
-from time import sleep
-import RPi.GPIO as gpio
-gpio.setmode(gpio.BOARD)
+# #try:
+# #    while True:
+# #        angle = int(input("Enter angle (0 to 180): "))
+# #        set_angle(angle)
+# #except KeyboardInterrupt:
+# #    pwm.stop()
+# #    GPIO.cleanup()
 
 
-# turn off channel warnings messages
-gpio.setwarnings(False)
+# # from gpiozero import Motor, AngularServo
+# from time import sleep
+# import RPi.GPIO as gpio
+# gpio.setmode(gpio.BOARD)
 
-# Set GPIO pins as output
-gpio.setup(13,gpio.OUT)
-gpio.setup(15,gpio.OUT)
-gpio.output(15,0)
 
-gpio.output(15,1)
+# # turn off channel warnings messages
+# gpio.setwarnings(False)
 
-arm_servo = AngularServo(17, min_angle = 0, max_angle = 90)
+# # Set GPIO pins as output
+# gpio.setup(13,gpio.OUT)
+# gpio.setup(15,gpio.OUT)
+# gpio.output(15,0)
 
-# Close
-arm_servo.value = 0.6
-sleep(0.45)
-arm_servo.value = None
+# gpio.output(15,1)
 
-sleep(3)
+# arm_servo = AngularServo(17, min_angle = 0, max_angle = 90)
 
-# Open
-arm_servo.value = -0.5
-sleep(0.2)
-arm_servo.value = None
+# # Close
+# arm_servo.value = 0.6
+# sleep(0.45)
+# arm_servo.value = None
+
+# sleep(3)
+
+# # Open
+# arm_servo.value = -0.5
+# sleep(0.2)
+# arm_servo.value = None
+
+
+from action import *
+
+
+center_arm()
+
+
+open_arm()
+
+
+close_arm()
