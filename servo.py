@@ -40,9 +40,7 @@ gpio.setup(13,gpio.OUT)
 gpio.setup(15,gpio.OUT)
 gpio.setup(11,gpio.OUT)
 
-gpio.output(15,0)
 
-gpio.output(15,0)
 
 arm_servo = AngularServo(11, min_angle = 0, max_angle = 90)
 
@@ -86,11 +84,6 @@ def open():
 # open_arm()
 
 i = 8
-
-
-while i !=9:
-    i = int(input())
-    if i==1:
-        open()
-    elif i==2:
-        close()
+open()
+sleep(2)
+close()
