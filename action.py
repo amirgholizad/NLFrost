@@ -18,24 +18,24 @@ gpio.setup(SERVO_PIN, gpio.OUT)
 # Set up PWM at 50Hz
 pwm = gpio.PWM(SERVO_PIN, 50)
 pwm.start(0)
-def angle_to_duty(angle):
+def angle_to_duty(angle,minn,maxx):
     # Typical servos: 0° = 2.5%, 180° = 12.5%
-    min_duty = 4.5   # was 2.5 (too low for your servo)
-    max_duty = 11.5  # typical max for 180°
+    min_duty = minn #4.5   # was 2.5 (too low for your servo)
+    max_duty =maxx #11.5  # typical max for 180°
     return min_duty + (angle / 180.0) * (max_duty - min_duty)
 
-def move_servo_to(angle):
+def move_servo_to(angle,minn,maxx):
     print(f"Moving to {angle} degrees")
-    duty = angle_to_duty(angle)
+    duty = angle_to_duty(angle,minn,maxx)
     pwm.ChangeDutyCycle(duty)
     sleep(0.5)
     pwm.ChangeDutyCycle(0)  # Stop sending signal to prevent jitter
 
-def open_arm():
-    move_servo_to(0)  # Open position (adjust if needed)
+def open_arm(minn,maxx):
+    move_servo_to(0,minn,maxx)  # Open position (adjust if needed)
 
-def close_arm():
-    move_servo_to(90)  # Close
+def close_arm(minn,maxx):
+    move_servo_to(90,minn,maxx)  # Close
 
     
 def cleanup():

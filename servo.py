@@ -61,8 +61,10 @@ from action import *
 
 
 
+minn = input()
+maxx = input()
 
-open_arm()
+open_arm(minn,maxx)
 
 
-close_arm()
+close_arm(minn,maxx)
