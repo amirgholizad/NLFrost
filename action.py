@@ -40,12 +40,14 @@ def move_servo_to(direction):
         pwm.ChangeDutyCycle(9)
         sleep(0.4)
         pwm.ChangeDutyCycle(7) # Stop
+        pwm.stop()
         return
     
     print("Servo close")
     pwm.ChangeDutyCycle(6)
     sleep(0.2)
     pwm.ChangeDutyCycle(7) # Stop
+    pwm.stop()
 
 def open_arm():
     # move_servo_to(0)    # Full anti-clockwise
