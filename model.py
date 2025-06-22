@@ -87,7 +87,7 @@ def detect_tennis_balls_from_webcam():
             break
 
         frame, (x_y, y_y), area_y = detect_color(frame, [20, 80, 80], [55, 255, 255], (0, 255, 255))  #yellow
-        frame, (x_o, y_o), area_o = detect_color(frame, [35, 50, 50], [85, 255, 255], (0, 255, 0))  #green
+        frame, (x_o, y_o), area_o = detect_color(frame, [0, 100, 100], [10, 255, 255], (0, 255, 0))  #red
 
         # print("--------------------------------------------------")
         # print(f"Yellow Ball - Center: ({x_y}, {y_y}), Area: {area_y}")
