@@ -32,15 +32,15 @@ def test_servo():
 #     sleep(0.5)
 #     pwm.ChangeDutyCycle(0)
 
-def move_servo_to(direction, speed = 0.25):
+def move_servo_to(direction, speed = 0.4):
     if direction == "open":
-        duty = 7.5 + (2.5 * speed)  # e.g., 10% for full-speed CW
+        duty = 7.6 + (2.5 * speed)  # e.g., 10% for full-speed CW
     else:
-        duty = 7.5 - (2.5 * speed)  # e.g., 5% for full-speed CCW
+        duty = 7.6 - (2.5 * speed)  # e.g., 5% for full-speed CCW
 
     pwm.ChangeDutyCycle(duty)
     sleep(0.5)
-    pwm.ChangeDutyCycle(7.5) # Stop
+    pwm.ChangeDutyCycle(7.6) # Stop
 
 def open_arm():
     # move_servo_to(0)    # Full anti-clockwise
