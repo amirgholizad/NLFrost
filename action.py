@@ -6,7 +6,6 @@
 
 # import libraries 
 import RPi.GPIO as gpio
-from gpiozero import Motor, AngularServo
 from time import sleep
 
 
@@ -99,24 +98,7 @@ def moveLeft():
     _leftOn()
 
 
-arm_servo = AngularServo(17, min_angle = 0, max_angle = 90)
 
-def close():
-# Close
-
-    print("closing arm")
-
-    arm_servo.value = 0.6
-    sleep(0.45)
-    arm_servo.value = None
-
-
-# Open
-def open():
-    print("opening arm")
-    arm_servo.value = -0.5
-    sleep(0.2)
-    arm_servo.value = None
 
 # if __name__=="__main__":
 #     stopAll()   # make sure all pin are set to off
