@@ -39,7 +39,7 @@ def move_servo_to(direction):
     if direction == "open":
         print("Servo open!")
         pwm.ChangeDutyCycle(9)
-        sleep(0.5)
+        sleep(0.6)
         pwm.ChangeDutyCycle(7) # Stop
         pwm.stop()
         return
