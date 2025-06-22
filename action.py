@@ -10,7 +10,7 @@ from time import sleep
 
 
 # Servo setup
-SERVO_PIN = 17
+SERVO_PIN = 11
 gpio.setwarnings(False)
 gpio.setmode(gpio.BOARD)
 gpio.setup(SERVO_PIN, gpio.OUT)
