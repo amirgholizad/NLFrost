@@ -111,6 +111,12 @@ def detect_tennis_balls_from_webcam():
                 arm_up = False
                 stopAll()
                 sleep(0.2)
+                while(not (350 < x < 370)):
+                    if(310 < x < 350):
+                        moveRight()
+                    elif(370 < x < 410):
+                        moveLeft()
+                
                 close_arm() # Close the arm
                 sleep(0.1)  # Simulate arm movement delay
             elif area_o > 100000 and not arm_up:
