@@ -60,7 +60,6 @@
 from action import *
 
 
-center_arm()
 
 
 open_arm()

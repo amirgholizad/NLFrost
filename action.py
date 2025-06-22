@@ -19,24 +19,26 @@ gpio.setup(SERVO_PIN, gpio.OUT)
 pwm = gpio.PWM(SERVO_PIN, 50)
 pwm.start(0)
 
+def pulse_to_duty(ms):
+    return (ms / 20.0) * 100  # 20 ms = 1 period at 50 Hz
+
 def open_arm():
-    print("Opening arm")
-    pwm.ChangeDutyCycle(5)   # Adjust this if needed (e.g., 5 = left / open)
-    sleep(0.5)
-    pwm.ChangeDutyCycle(0)   # Stop sending signal
+    print("Rotating forward")
+    pwm.ChangeDutyCycle(pulse_to_duty(2.0))  # ~10%
+    sleep(1)
+    stop_servo()
 
 def close_arm():
-    print("Closing arm")
-    pwm.ChangeDutyCycle(10)  # Adjust this if needed (e.g., 10 = right / close)
-    sleep(0.5)
-    pwm.ChangeDutyCycle(0)   # Stop sending signal
+    print("Rotating backward")
+    pwm.ChangeDutyCycle(pulse_to_duty(1.0))  # ~5%
+    sleep(1)
+    stop_servo()
 
-def center_arm():
-    print("Centering arm")
-    pwm.ChangeDutyCycle(7.5) # Neutral position
-    sleep(0.5)
+def stop_servo():
+    print("Stopping")
+    pwm.ChangeDutyCycle(pulse_to_duty(1.5))  # ~7.5%
+    sleep(0.2)
     pwm.ChangeDutyCycle(0)
-
 def cleanup():
     print("Cleaning up GPIO")
     pwm.stop()
