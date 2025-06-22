@@ -73,4 +73,6 @@ while(i!=9):
     elif i==1:
 
         open_arm()
+    elif i==3:
+        full_close()
     sleep(1)
