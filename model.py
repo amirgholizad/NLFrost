@@ -112,6 +112,7 @@ def detect_tennis_balls_from_webcam():
         # Quitting program with 'q'
         key = cv2.waitKey(1)
         if key == 27 or key == ord('q'):
+            cleanup()
             break
 
 
