@@ -23,23 +23,36 @@ def test_servo():
     pwm.ChangeDutyCycle(duty)
     sleep(1)
     pwm.ChangeDutyCycle(0)
-def move_servo_to(angle):
-    max_duty = 7.6
-    min_duty = 6.8
-    duty = max_duty - (angle / 180.0) * (max_duty - min_duty)
-    print(f"Moving to {angle}° → Duty = {round(duty, 2)}%")
+# def move_servo_to(angle):
+#     max_duty = 7.6
+#     min_duty = 6.8
+#     duty = max_duty - (angle / 180.0) * (max_duty - min_duty)
+#     print(f"Moving to {angle}° → Duty = {round(duty, 2)}%")
+#     pwm.ChangeDutyCycle(duty)
+#     sleep(0.5)
+#     pwm.ChangeDutyCycle(0)
+
+def move_servo_to(direction, speed = 1.0):
+    if direction == "open":
+        duty = 7.5 + (2.5 * speed)  # e.g., 10% for full-speed CW
+    else:
+        duty = 7.5 - (2.5 * speed)  # e.g., 5% for full-speed CCW
+
     pwm.ChangeDutyCycle(duty)
     sleep(0.5)
-    pwm.ChangeDutyCycle(0)
+    pwm.ChangeDutyCycle(7.5) # Stop
 
 def open_arm():
-    move_servo_to(0)    # Full anti-clockwise
+    # move_servo_to(0)    # Full anti-clockwise
+    move_servo_to("open")
 
 def close_arm():
-    move_servo_to(90)   # Center
+    # move_servo_to(90)   # Center
+    move_servo_to("close")
 
 def full_close():
-    move_servo_to(180)  # Full clockwise
+    # move_servo_to(180)  # Full clockwise
+    pass
     
 def cleanup():
     print("Cleaning up GPIO")
