@@ -80,7 +80,7 @@ def detect_tennis_balls_from_webcam():
         print(f"Orange Ball - Center: ({x_o}, {y_o}), Area: {area_o}")
         print("--------------------------------------------------")
         
-        cv2.imshow("Tennis Ball Detection (Classic CV)", frame)
+        # cv2.imshow("Tennis Ball Detection (Classic CV)", frame)
         if arm_up:
             x = x_y
         else:
