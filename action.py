@@ -52,10 +52,12 @@ def move_servo_to(direction):
 def open_arm():
     # move_servo_to(0)    # Full anti-clockwise
     move_servo_to("open")
+    pwm.start(0)
 
 def close_arm():
     # move_servo_to(90)   # Center
     move_servo_to("close")
+    pwm.start(0)
 
 def full_close():
     # move_servo_to(180)  # Full clockwise
