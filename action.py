@@ -24,23 +24,22 @@ def test_servo():
     sleep(1)
     pwm.ChangeDutyCycle(0)
 def move_servo_to(angle):
-    # Clamp angle to [0, 180]
-    angle = max(0, min(180, angle))
-    # SG90: 0°=5%, 180°=10%
-    duty = 5 + (angle / 180.0) * 5
-    print(f"Moving to {angle}° (duty {round(duty, 2)}%)")
+    max_duty = 7.6
+    min_duty = 6.8
+    duty = max_duty - (angle / 180.0) * (max_duty - min_duty)
+    print(f"Moving to {angle}° → Duty = {round(duty, 2)}%")
     pwm.ChangeDutyCycle(duty)
     sleep(0.5)
     pwm.ChangeDutyCycle(0)
 
 def open_arm():
-    move_servo_to(0)
+    move_servo_to(0)    # Full anti-clockwise
 
 def close_arm():
-    move_servo_to(90)
+    move_servo_to(90)   # Center
 
 def full_close():
-    move_servo_to(180)
+    move_servo_to(180)  # Full clockwise
     
 def cleanup():
     print("Cleaning up GPIO")

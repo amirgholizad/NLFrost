@@ -64,6 +64,8 @@ from action import *
 # minn = float(input())
 # maxx = float(input())
 
-test_servo()
+# test_servo()
+open_arm()
+sleep(1)
 
-# close_arm()
+close_arm()
