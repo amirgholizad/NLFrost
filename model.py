@@ -14,7 +14,7 @@ def close():
 
     arm_servo.value = 0.6
     sleep(0.45)
-    arm_servo.value = None
+    arm_servo.value = 0
 
 
 # Open
@@ -22,7 +22,7 @@ def open():
     print("opening arm")
     arm_servo.value = -0.5
     sleep(0.2)
-    arm_servo.value = None
+    arm_servo.value = 0
 
 def detect_color(frame, lower_color, upper_color, center_color):
     frame = cv2.resize(frame, (720, 480))
