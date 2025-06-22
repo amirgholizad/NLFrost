@@ -61,10 +61,10 @@ from action import *
 
 
 
-minn = float(input())
-maxx = float(input())
+# minn = float(input())
+# maxx = float(input())
 
-open_arm(minn,maxx)
+open_arm()
 
 
-close_arm(minn,maxx)
+close_arm()
