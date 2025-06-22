@@ -21,8 +21,8 @@ pwm.start(0)
 def test_servo():
     duty = float(input())
     pwm.ChangeDutyCycle(duty)
-    sleep(1)
-    pwm.ChangeDutyCycle(0)
+    sleep(0.5)
+    pwm.ChangeDutyCycle(7.6)
 # def move_servo_to(angle):
 #     max_duty = 7.6
 #     min_duty = 6.8
