@@ -105,8 +105,8 @@ def detect_tennis_balls_from_webcam():
             
             moveRight()
             
-        elif 720/ 2 - 50 < x < 720 / 2 + 50:
-            print(area_y)
+        elif 720/ 2 - 30 < x < 720 / 2 + 30:
+            print(f"Area yellow: {area_y}")
             if area_y > 28000 and arm_up:
                 arm_up = False
                 stopAll()
