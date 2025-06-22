@@ -5,7 +5,7 @@ from action import *
 from gpiozero import Motor, AngularServo
 
 
-arm_servo = AngularServo(17, min_angle = 0, max_angle = 90, min_pulse_width=0.0005, max_pulse_width=0.0025)
+arm_servo = AngularServo(17, min_angle = 0, max_angle = 90)
 
 def close():
 # Close
