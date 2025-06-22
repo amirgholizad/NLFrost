@@ -40,26 +40,22 @@ def move_servo_to(direction):
         pwm.ChangeDutyCycle(9)
         sleep(0.4)
         pwm.ChangeDutyCycle(7) # Stop
-        pwm.stop()
+        sleep(0.1)
         return
     
     print("Servo close")
     pwm.ChangeDutyCycle(6)
     sleep(0.2)
     pwm.ChangeDutyCycle(7) # Stop
-    pwm.stop()
+    sleep(0.1)
 
 def open_arm():
     # move_servo_to(0)    # Full anti-clockwise
     move_servo_to("open")
-    pwm = gpio.PWM(SERVO_PIN, 50)
-    pwm.start(0)
 
 def close_arm():
     # move_servo_to(90)   # Center
     move_servo_to("close")
-    pwm = gpio.PWM(SERVO_PIN, 50)
-    pwm.start(0)
 
 def full_close():
     # move_servo_to(180)  # Full clockwise
