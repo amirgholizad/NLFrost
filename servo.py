@@ -36,13 +36,13 @@ gpio.setmode(gpio.BOARD)
 gpio.setwarnings(False)
 
 # Set GPIO pins as output
-gpio.setup(13,gpio.OUT)
+gpio.setup(17,gpio.OUT)
 gpio.setup(15,gpio.OUT)
 gpio.setup(11,gpio.OUT)
 
 
 
-arm_servo = AngularServo(11, min_angle = 0, max_angle = 90)
+arm_servo = AngularServo(17, min_angle = 0, max_angle = 90)
 
 # Close
 def close():
