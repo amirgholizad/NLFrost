@@ -60,7 +60,7 @@ def detect_tennis_balls_from_webcam():
 
     cap = cv2.VideoCapture(0)
 
-    desired_fps = 8
+    desired_fps = 2
     cap.set(cv2.CAP_PROP_FPS, desired_fps)
 
     if not cap.isOpened():
@@ -75,10 +75,10 @@ def detect_tennis_balls_from_webcam():
         frame, (x_y, y_y), area_y = detect_color(frame, [20, 80, 80], [55, 255, 255], (0, 255, 255))  #yellow
         frame, (x_o, y_o), area_o = detect_color(frame, [35, 50, 50], [85, 255, 255], (0, 255, 0))  #green
 
-        print("--------------------------------------------------")
-        print(f"Yellow Ball - Center: ({x_y}, {y_y}), Area: {area_y}")
-        print(f"Orange Ball - Center: ({x_o}, {y_o}), Area: {area_o}")
-        print("--------------------------------------------------")
+        # print("--------------------------------------------------")
+        # print(f"Yellow Ball - Center: ({x_y}, {y_y}), Area: {area_y}")
+        # print(f"Orange Ball - Center: ({x_o}, {y_o}), Area: {area_o}")
+        # print("--------------------------------------------------")
         
         # cv2.imshow("Tennis Ball Detection (Classic CV)", frame)
         if arm_up:
@@ -107,7 +107,7 @@ def detect_tennis_balls_from_webcam():
             moveRight()
 
 
-        sleep(0.5)
+        # sleep(0.5)
 
         # Quitting program with 'q'
         key = cv2.waitKey(1)
