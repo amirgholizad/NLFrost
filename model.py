@@ -74,7 +74,7 @@ def detect_tennis_balls_from_webcam():
 
     cap = cv2.VideoCapture(0)
 
-    desired_fps = 2
+    desired_fps = 5
     cap.set(cv2.CAP_PROP_FPS, desired_fps)
 
     if not cap.isOpened():
