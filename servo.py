@@ -65,11 +65,12 @@ from action import *
 # maxx = float(input())
 
 # test_servo()
+i=2
 while(i!=9):
-    i = int(input)
+    i = int(input())
     if i==0:
         close_arm()
-    else:
+    elif i==1:
 
         open_arm()
-        sleep(1)
+    sleep(1)
