@@ -77,5 +77,6 @@ from action import *
 #         full_close()
 #     sleep(1)
 
-test_servo()
-sleep(1)
+close_arm()
+sleep(2)
+open_arm()
