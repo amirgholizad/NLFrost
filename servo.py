@@ -40,7 +40,7 @@ gpio.setup(13,gpio.OUT)
 gpio.setup(15,gpio.OUT)
 gpio.output(15,0)
 
-gpio.output(15,1)
+gpio.output(15,0)
 
 arm_servo = AngularServo(11, min_angle = 0, max_angle = 90)
 
