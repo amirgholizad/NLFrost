@@ -8,17 +8,21 @@ from gpiozero import Motor, AngularServo
 arm_servo = AngularServo(17, min_angle = 0, max_angle = 90, min_pulse_width=0.0005, max_pulse_width=0.0025)
 
 def close():
-    print("closing arm")
-    arm_servo.angle = 90
-    sleep(0.45)
-    arm_servo.angle = None  # Stops signal
+# Close
 
+    print("closing arm")
+
+    arm_servo.value = 0.6
+    sleep(0.45)
+    arm_servo.value = 0
+
+
+# Open
 def open():
     print("opening arm")
-    arm_servo.angle = 0
+    arm_servo.value = -0.5
     sleep(0.2)
-    arm_servo.angle = None  # Stops signal
-
+    arm_servo.value = 0
 
 def detect_color(frame, lower_color, upper_color, center_color):
     frame = cv2.resize(frame, (720, 480))
