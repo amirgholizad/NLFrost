@@ -9,6 +9,39 @@ import RPi.GPIO as gpio
 from time import sleep
 
 
+# Servo setup
+SERVO_PIN = 17
+gpio.setwarnings(False)
+gpio.setmode(gpio.BOARD)
+gpio.setup(SERVO_PIN, gpio.OUT)
+
+# Set up PWM at 50Hz
+pwm = gpio.PWM(SERVO_PIN, 50)
+pwm.start(0)
+
+def open_arm():
+    print("Opening arm")
+    pwm.ChangeDutyCycle(5)   # Adjust this if needed (e.g., 5 = left / open)
+    sleep(0.5)
+    pwm.ChangeDutyCycle(0)   # Stop sending signal
+
+def close_arm():
+    print("Closing arm")
+    pwm.ChangeDutyCycle(10)  # Adjust this if needed (e.g., 10 = right / close)
+    sleep(0.5)
+    pwm.ChangeDutyCycle(0)   # Stop sending signal
+
+def center_arm():
+    print("Centering arm")
+    pwm.ChangeDutyCycle(7.5) # Neutral position
+    sleep(0.5)
+    pwm.ChangeDutyCycle(0)
+
+def cleanup():
+    print("Cleaning up GPIO")
+    pwm.stop()
+    gpio.cleanup()
+
 # from enum import IntEnum
 
 # class State(IntEnum):
@@ -34,11 +67,11 @@ from time import sleep
 
 # set pin mapping to BOARD
 
-gpio.setmode(gpio.BOARD)
+# gpio.setmode(gpio.BOARD)
 
 
 # turn off channel warnings messages
-gpio.setwarnings(False)
+# gpio.setwarnings(False)
 
 # Set GPIO pins as output
 gpio.setup(13,gpio.OUT)

@@ -2,27 +2,27 @@ import cv2
 import numpy as np
 from time import sleep
 from action import *
-from gpiozero import Motor, AngularServo
+# from gpiozero import Motor, AngularServo
 
 
-arm_servo = AngularServo(17, min_angle = 0, max_angle = 90)
+# arm_servo = AngularServo(17, min_angle = 0, max_angle = 90)
 
-def close():
-# Close
+# def close():
+# # Close
 
-    print("closing arm")
+#     print("closing arm")
 
-    arm_servo.value = 0.6
-    sleep(0.45)
-    arm_servo.value = 0
+#     arm_servo.value = 0.6
+#     sleep(0.45)
+#     arm_servo.value = 0
 
 
-# Open
-def open():
-    print("opening arm")
-    arm_servo.value = -0.5
-    sleep(0.2)
-    arm_servo.value = 0
+# # Open
+# def open():
+#     print("opening arm")
+#     arm_servo.value = -0.5
+#     sleep(0.2)
+#     arm_servo.value = 0
 
 def detect_color(frame, lower_color, upper_color, center_color):
     frame = cv2.resize(frame, (720, 480))

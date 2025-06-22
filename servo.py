@@ -26,7 +26,7 @@
 #    GPIO.cleanup()
 
 
-from gpiozero import Motor, AngularServo
+# from gpiozero import Motor, AngularServo
 from time import sleep
 import RPi.GPIO as gpio
 gpio.setmode(gpio.BOARD)
