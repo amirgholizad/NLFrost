@@ -18,27 +18,24 @@ gpio.setup(SERVO_PIN, gpio.OUT)
 # Set up PWM at 50Hz
 pwm = gpio.PWM(SERVO_PIN, 50)
 pwm.start(0)
+def angle_to_duty(angle):
+    # Typical servos: 0° = 2.5%, 180° = 12.5%
+    return 2.5 + (angle / 180.0) * 10
 
-def pulse_to_duty(ms):
-    return (ms / 20.0) * 100  # 20 ms = 1 period at 50 Hz
+def move_servo_to(angle):
+    print(f"Moving to {angle} degrees")
+    duty = angle_to_duty(angle)
+    pwm.ChangeDutyCycle(duty)
+    sleep(0.5)
+    pwm.ChangeDutyCycle(0)  # Stop sending signal to prevent jitter
 
 def open_arm():
-    print("Rotating forward")
-    pwm.ChangeDutyCycle(pulse_to_duty(2.0))  # ~10%
-    sleep(1)
-    stop_servo()
+    move_servo_to(0)  # Open position (adjust if needed)
 
 def close_arm():
-    print("Rotating backward")
-    pwm.ChangeDutyCycle(pulse_to_duty(1.0))  # ~5%
-    sleep(1)
-    stop_servo()
+    move_servo_to(90)  # Close
 
-def stop_servo():
-    print("Stopping")
-    pwm.ChangeDutyCycle(pulse_to_duty(1.5))  # ~7.5%
-    sleep(0.2)
-    pwm.ChangeDutyCycle(0)
+    
 def cleanup():
     print("Cleaning up GPIO")
     pwm.stop()
