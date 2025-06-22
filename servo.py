@@ -77,6 +77,10 @@ from action import *
 #         full_close()
 #     sleep(1)
 
-close_arm()
-sleep(2)
-open_arm()
+status = input()
+if(status == "open"):
+    open_arm()
+elif(status == "close"):
+    close_arm()
+else:
+    print("Invalid!!!")
