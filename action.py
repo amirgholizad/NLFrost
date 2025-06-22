@@ -19,9 +19,10 @@ gpio.setup(SERVO_PIN, gpio.OUT)
 pwm = gpio.PWM(SERVO_PIN, 50)
 pwm.start(0)
 def test_servo():
-    duty = float(input())
+    sleepVal = float(input("SleepVal: "))
+    duty = float(input("DutyVal: "))
     pwm.ChangeDutyCycle(duty)
-    sleep(0.5)
+    sleep()
     pwm.ChangeDutyCycle(7.6)
 # def move_servo_to(angle):
 #     max_duty = 7.6
