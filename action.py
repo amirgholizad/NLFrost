@@ -32,7 +32,7 @@ def test_servo():
 #     sleep(0.5)
 #     pwm.ChangeDutyCycle(0)
 
-def move_servo_to(direction, speed = 1.0):
+def move_servo_to(direction, speed = 0.25):
     if direction == "open":
         duty = 7.5 + (2.5 * speed)  # e.g., 10% for full-speed CW
     else:
