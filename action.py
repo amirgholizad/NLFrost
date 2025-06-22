@@ -20,7 +20,9 @@ pwm = gpio.PWM(SERVO_PIN, 50)
 pwm.start(0)
 def angle_to_duty(angle):
     # Typical servos: 0° = 2.5%, 180° = 12.5%
-    return 2.5 + (angle / 180.0) * 10
+    min_duty = 3.5   # was 2.5 (too low for your servo)
+    max_duty = 11.5  # typical max for 180°
+    return min_duty + (angle / 180.0) * (max_duty - min_duty)
 
 def move_servo_to(angle):
     print(f"Moving to {angle} degrees")
