@@ -39,7 +39,6 @@ def detect_color(frame, lower_color, upper_color, center_color):
     mask = cv2.morphologyEx(mask, cv2.MORPH_CLOSE, kernel)
 
     # Find contours
-    print("=== findContours called! ===")
     contours, _ = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
     center = (0, 0)
     area = 0
@@ -50,7 +49,6 @@ def detect_color(frame, lower_color, upper_color, center_color):
             ((x, y), radius) = cv2.minEnclosingCircle(largest_contour)
             center = (int(x), int(y))
             radius = int(radius)
-            print("=== Drawing circle! ===")
             cv2.circle(frame, center, radius, (0, 255, 255), 2)
             cv2.circle(frame, center, 5, center_color, -1)
     return frame, center, area
@@ -74,12 +72,8 @@ def detect_tennis_balls_from_webcam():
         if not ret:
             break
 
-        print("=== detect_color yellow called! ===")
         frame, (x_y, y_y), area_y = detect_color(frame, [20, 80, 80], [55, 255, 255], (0, 255, 255))  #yellow
-        print("=== detect_color yellow finished! ===")
-        print("=== detect_color green called! ===")
         frame, (x_o, y_o), area_o = detect_color(frame, [35, 50, 50], [85, 255, 255], (0, 255, 0))  #green
-        print("=== detect_color green finished! ===")
 
         print("--------------------------------------------------")
         print(f"Yellow Ball - Center: ({x_y}, {y_y}), Area: {area_y}")
@@ -87,7 +81,6 @@ def detect_tennis_balls_from_webcam():
         print("--------------------------------------------------")
         
         cv2.imshow("Tennis Ball Detection (Classic CV)", frame)
-        print("=== imshow finished! ===")
         if arm_up:
             x = x_y
         else:
@@ -96,35 +89,22 @@ def detect_tennis_balls_from_webcam():
         if x == 0:
             print("No ball detected.")
             
-            print("=== MoveRight called!")
             moveRight()
-            print("=== MoveRight finished!")
             
         elif 720/ 2 - 50 < x < 720 / 2 + 50:
-            print("===========================================================================================================")
             if area_y > 30000 and arm_up:
                 arm_up = False
-                print("=== arm close called!")
                 close() # Close the arm
-                print("=== arm close finished!")
                 sleep(2)  # Simulate arm movement delay
             elif area_o > 30000 and not arm_up:
                 arm_up = True
-                print("=== arm open called!")
                 open() # Open the arm
-                print("=== arm open finished!")
                 sleep(2)  # Simulate arm movement delay
-            print("=== MoveForward called!")
             moveForward()
-            print("=== MoveForward finished!")
         elif x <= 720 / 2 - 50:
-            print("=== MoveLeft called!")
             moveLeft()
-            print("=== MoveLeft finished!")
         else:
-            print("=== MoveRight called!")
             moveRight()
-            print("=== MoveRight finished!")
 
 
         sleep(0.5)
