@@ -65,7 +65,7 @@ from action import *
 # maxx = float(input())
 
 # test_servo()
+close_arm()
+
 open_arm()
 sleep(1)
-
-full_close()
