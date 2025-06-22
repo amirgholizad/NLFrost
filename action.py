@@ -16,8 +16,7 @@ gpio.setmode(gpio.BOARD)
 gpio.setup(SERVO_PIN, gpio.OUT)
 
 # Set up PWM at 50Hz
-pwm = gpio.PWM(SERVO_PIN, 50)
-pwm.start(0)
+
 def test_servo():
     sleepVal = float(input("SleepVal: "))
     stopVal = float(input("stopVal: "))
@@ -35,17 +34,21 @@ def test_servo():
 #     pwm.ChangeDutyCycle(0)
 
 def move_servo_to(direction):
+    pwm = gpio.PWM(SERVO_PIN, 50)
+    pwm.start(0)
     if direction == "open":
         print("Servo open!")
         pwm.ChangeDutyCycle(9)
         sleep(0.4)
         pwm.ChangeDutyCycle(7) # Stop
+        pwm.stop()
         return
     
     print("Servo close!")
     pwm.ChangeDutyCycle(6)
     sleep(0.2)
     pwm.ChangeDutyCycle(7) # Stop
+    pwm.stop()
     return 
 
 def open_arm():
