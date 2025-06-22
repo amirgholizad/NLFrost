@@ -18,6 +18,11 @@ gpio.setup(SERVO_PIN, gpio.OUT)
 # Set up PWM at 50Hz
 pwm = gpio.PWM(SERVO_PIN, 50)
 pwm.start(0)
+def test_servo():
+    duty = float(input())
+    pwm.ChangeDutyCycle(duty)
+    sleep(1)
+    pwm.ChangeDutyCycle(0)
 def move_servo_to(angle):
     # Clamp angle to [0, 180]
     angle = max(0, min(180, angle))
