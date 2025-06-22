@@ -38,6 +38,8 @@ gpio.setwarnings(False)
 # Set GPIO pins as output
 gpio.setup(13,gpio.OUT)
 gpio.setup(15,gpio.OUT)
+gpio.setup(11,gpio.OUT)
+
 gpio.output(15,0)
 
 gpio.output(15,0)
