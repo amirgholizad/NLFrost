@@ -61,8 +61,8 @@ from action import *
 
 
 
-minn = input()
-maxx = input()
+minn = float(input())
+maxx = float(input())
 
 open_arm(minn,maxx)
 
