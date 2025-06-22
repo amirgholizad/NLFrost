@@ -82,6 +82,5 @@ if(status == "open"):
     open_arm()
 elif(status == "close"):
     close_arm()
-    sleep(10)
 else:
     print("Invalid!!!")
