@@ -2,6 +2,20 @@ import cv2
 import numpy as np
 from time import sleep
 from action import *
+import signal, sys
+
+def handle_sigint(signal_received, frame):
+    print("\nCtrl+C detected. Cleaning up before exit...")
+    # Add your custom stop logic here
+    stopAll()
+    cleanup()
+    sys.exit(0)
+
+
+signal.signal(signal.SIGINT, handle_sigint)
+
+
+
 # from gpiozero import Motor, AngularServo
 
 
@@ -87,7 +101,7 @@ def detect_tennis_balls_from_webcam():
             x = x_o
         
         if x == 0:
-            print("No ball detected.")
+            # print("No ball detected.")
             
             moveRight()
             

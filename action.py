@@ -141,12 +141,12 @@ def moveStop():
     _leftOff()
 
 def moveRight():
-    print("Moving right")
+    # print("Moving right")
     _rightOn()
     _leftOff()
 
 def moveLeft():
-    print("Moving left")
+    # print("Moving left")
     _rightOff()
     _leftOn()
 
